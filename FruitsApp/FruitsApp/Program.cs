@@ -1,6 +1,9 @@
 ﻿using FruitsApp.DAO.Abstract;
 using FruitsApp.DAO.Implementanions;
 using FruitsApp.DAO.Models;
+using FruitsApp.Mappers.Abstract;
+using FruitsApp.Mappers.Implementations;
+using FruitsApp.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -16,6 +19,7 @@ namespace FruitsApp
 
             // Настраиваем связки между интерфейсами и реализациями
             hostApplicationBuilder.Services.AddSingleton<IFruitsDao, FruitsDao>();
+            hostApplicationBuilder.Services.AddSingleton<IFruitsMapper, FruitsMapper>();
 
             using IHost host = hostApplicationBuilder.Build();
 
@@ -25,17 +29,20 @@ namespace FruitsApp
             #endregion
 
             // Получаем DAO из инжектора
-            var fruitsDao = diProvider.GetService<IFruitsDao>();
+            var fruits = diProvider.GetService<IFruitsDao>();
+            var fruitsMapper = diProvider.GetService<IFruitsMapper>();
 
             // Пробуем добавить фрукт
-            var orange = new FruitDbo()
+            var lemon = new Fruit()
             {
-                Name = "Апельсин",
-                Weight = 150,
-                Color = FruitColor.Red
+                Name = "Лимон",
+                Weight = 110,
+                Color = FruitColor.Yellow
             };
 
-            fruitsDao.AddFruit(orange);
+            var lemonDbo = fruitsMapper.Map(lemon);
+
+            fruits.AddFruit(lemonDbo);
         }
     }
 }

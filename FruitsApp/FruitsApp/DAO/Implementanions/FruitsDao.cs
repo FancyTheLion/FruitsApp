@@ -42,7 +42,7 @@ namespace FruitsApp.DAO.Implementanions
                 .Fruits
                 .OrderBy(f => f.Name)
                 .ToList();
-            
+
             return dbFruits;
         }
     }
