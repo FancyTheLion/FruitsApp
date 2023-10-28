@@ -4,6 +4,8 @@ using FruitsApp.DAO.Models;
 using FruitsApp.Mappers.Abstract;
 using FruitsApp.Mappers.Implementations;
 using FruitsApp.Models;
+using FruitsApp.Services.Abstract;
+using FruitsApp.Services.Implementations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -20,6 +22,7 @@ namespace FruitsApp
             // Настраиваем связки между интерфейсами и реализациями
             hostApplicationBuilder.Services.AddSingleton<IFruitsDao, FruitsDao>();
             hostApplicationBuilder.Services.AddSingleton<IFruitsMapper, FruitsMapper>();
+            hostApplicationBuilder.Services.AddSingleton<IFruitsService, FruitsService>();
 
             using IHost host = hostApplicationBuilder.Build();
 
@@ -28,21 +31,25 @@ namespace FruitsApp
 
             #endregion
 
-            // Получаем DAO из инжектора
-            var fruits = diProvider.GetService<IFruitsDao>();
-            var fruitsMapper = diProvider.GetService<IFruitsMapper>();
+            // Мы имеем право получить здесь только сервис. Программа в этом месте не должна ничего знать о мапперах и DAO
+            var fruitsService = diProvider.GetService<IFruitsService>();
 
-            // Пробуем добавить фрукт
-            var lemon = new Fruit()
+            // Пытаемся добавить апельсин
+            fruitsService.TryToAddFruitIfItDoesntExist("Апельсин");
+            fruitsService.TryToAddFruitIfItDoesntExist("Лимон");
+
+            // Распечатываем фрукты, которые есть в базе
+            Console.WriteLine("Фрукты в базе:");
+
+            var fruits = fruitsService.GetFruits();
+            foreach(var fruit in fruits)
             {
-                Name = "Лимон",
-                Weight = 110,
-                Color = FruitColor.Yellow
-            };
+                Console.WriteLine($"Название: { fruit.Name }, вес: { fruit.Weight }, цвет: { fruitsService.GetRussianColorName(fruit.Color) }");
+            }
 
-            var lemonDbo = fruitsMapper.Map(lemon);
-
-            fruits.AddFruit(lemonDbo);
+            // Ждём завершения
+            Console.WriteLine("Нажмите <Enter> для завершения");
+            Console.ReadLine();
         }
     }
 }
