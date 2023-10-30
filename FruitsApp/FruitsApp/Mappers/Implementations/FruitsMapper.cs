@@ -18,7 +18,8 @@ namespace FruitsApp.Mappers.Implementations
                 Id = fruit.Id,
                 Name = fruit.Name,
                 Weight = fruit.Weight,
-                Color = fruit.Color
+                Color = fruit.Color,
+                PeelThickness = fruit.PeelThickness
             };
         }
 
@@ -29,7 +30,8 @@ namespace FruitsApp.Mappers.Implementations
                 Id = fruit.Id,
                 Name = fruit.Name,
                 Weight = fruit.Weight,
-                Color = fruit.Color
+                Color = fruit.Color,
+                PeelThickness = fruit.PeelThickness
             };
         }
 

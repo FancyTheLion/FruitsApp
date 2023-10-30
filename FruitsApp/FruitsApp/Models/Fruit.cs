@@ -31,5 +31,10 @@ namespace FruitsApp.Models
         /// Цвет фрукта
         /// </summary>
         public FruitColor Color { get; set; }
+
+        /// <summary>
+        /// Толщина кожуры фрукта
+        /// </summary>
+        public double PeelThickness { get; set; }
     }
 }

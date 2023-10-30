@@ -34,9 +34,10 @@ namespace FruitsApp
             // Мы имеем право получить здесь только сервис. Программа в этом месте не должна ничего знать о мапперах и DAO
             var fruitsService = diProvider.GetService<IFruitsService>();
 
-            // Пытаемся добавить апельсин
+            // Пытаемся добавить какой-либо фрукт
             fruitsService.TryToAddFruitIfItDoesntExist("Апельсин");
             fruitsService.TryToAddFruitIfItDoesntExist("Лимон");
+            fruitsService.TryToAddFruitIfItDoesntExist("Лайм");
 
             // Распечатываем фрукты, которые есть в базе
             Console.WriteLine("Фрукты в базе:");
@@ -44,7 +45,8 @@ namespace FruitsApp
             var fruits = fruitsService.GetFruits();
             foreach(var fruit in fruits)
             {
-                Console.WriteLine($"Название: { fruit.Name }, вес: { fruit.Weight }, цвет: { fruitsService.GetRussianColorName(fruit.Color) }");
+                Console.WriteLine(@$"Название: { fruit.Name }, вес: { fruit.Weight }, цвет: { fruitsService.GetRussianColorName(fruit.Color) },
+                толщина шкурки: { fruit.PeelThickness }");
             }
 
             // Ждём завершения
