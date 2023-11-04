@@ -65,7 +65,7 @@ namespace FruitsApp.Services.Implementations
                 Name = name,
                 Weight = _randomGenerator.Next(50, 1001),
                 Color = GenerateRandomFruitColor(),
-                PeelThickness = _randomGenerator.Next(1, 201)
+                PeelThickness = _randomGenerator.NextDouble() * 20
             };
         }
 
